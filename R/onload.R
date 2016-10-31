@@ -10,6 +10,8 @@
       ),
       c("^attributes$",
         "^operations$"
+      ),
+      c("^end$"
       )
     )
   )

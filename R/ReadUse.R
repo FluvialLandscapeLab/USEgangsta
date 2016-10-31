@@ -14,14 +14,15 @@ fileVector =
 # clip leading and trailing blank space
 fileVector = sub("^[[:space:]]+", "", fileVector)
 fileVector = sub("[[:space:]]+$", "", fileVector)
+# remove commented lines
+fileVector = grep("^[-]+", fileVector, value = TRUE, invert =TRUE)
 # remove blank lines
 fileVector = fileVector[!(fileVector == "")]
-# remove comments
-fileVector = fileVector[-(grep("^-", fileVector))]
+
 
 makeTags = function(OCL) {
   # get the regular expressions that signify XML tags
-  tags = unlist(options("USEgangsta.OCLtags"))
+  tags = unlist(USEgangsta.OCLtags)
   # locate the lines of OCL that have tags
   matchList = lapply(tags, grep, x = OCL)
   # find the location of the beginning of each tag in each line
@@ -53,3 +54,5 @@ makeTags = function(OCL) {
 ### tags that have "useless ends".  Insert the close tags (e.g., "<\class>") for
 ### each level of the hierarchy.  If an "end" appears directly above the close
 ### of a class with a usless end, delete it.
+
+
