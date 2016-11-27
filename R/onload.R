@@ -13,8 +13,9 @@
       ),
       c("^end$"
       )
-    )
-  )
+     )
+)
+
 
   toset <- !(names(op.USEgangsta) %in% names(op))
   if(any(toset)) options(op.USEgangsta[toset])

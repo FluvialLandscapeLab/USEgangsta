@@ -1,19 +1,20 @@
 model Gangsta 
+
 class SimulationModel
 
-  attributes
-	totalBiomass : Real 
+	attributes
+		totalBiomass : Real
 
-operations
-  simulation() 
-	initGangstaInstance()  
-  	  begin     
-		for i in self.compounds do
- 			  i.initialAmountMols := 0; 
-  			  i.finalAmountMols := 0;
-  	  end;  
-	  self.totalBiomass := 0;
-	end
+	operations
+  		simulation() 
+		initGangstaInstance()  
+  	  		begin     
+				for i in self.compounds do
+ 			  		i.initialAmountMols := 0; 
+  			  		i.finalAmountMols := 0;
+  	  			end;  
+	  			self.totalBiomass := 0;
+			end	
 end
 
 class Compound
@@ -21,12 +22,12 @@ class Compound
 	name : String
 	initialAmountMols : Real
 	finalAmountMols : Real
-	
-operations
-  setInitialAmountMols(mols : Real)
-    begin
-	self.initialAmountMols := mols
-    end
+
+  operations
+    setInitialAmountMols(mols : Real)
+    	begin
+	  		self.initialAmountMols := mols
+    	end		
 end
 
 class InfiniteCompound < Compound  
@@ -131,3 +132,4 @@ constraints
   context SimulationModel::initGangstaInstance()
     pre:self.compounds->notEmpty()
     post:self.totalBiomass = 0
+
