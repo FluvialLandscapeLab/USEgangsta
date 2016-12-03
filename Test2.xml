@@ -1,0 +1,46 @@
+<model> 
+<class> SimulationModel
+attributes
+totalBiomass : Real
+operations
+simulation()
+initGangstaInstance()
+begin
+for i in self.compounds do
+i.initialAmountMols := 0;
+i.finalAmountMols := 0;
+end;
+self.totalBiomass := 0;
+end
+</class>
+<class> Compound
+attributes
+name : String
+initialAmountMols : Real
+finalAmountMols : Real
+operations
+setInitialAmountMols(mols : Real)
+begin
+self.initialAmountMols := mols
+end
+</class>
+<class> InfiniteCompound ;lt Compound
+constraints
+inv sourceSinkInitialAmtMols: initialAmountMols = 0
+</class>
+<class> FiniteCompound ;lt Compound
+constraints
+inv compoundInitialAmtMols: initialAmountMols >= 0
+inv compoundFinalAmtMols: finalAmountMols >= 0
+</class>
+<class> Organism ;lt FiniteCompound
+attributes
+respirationRate : Real
+respirationEnergyJoules : Real
+energyJoules : Real
+constraints
+inv expression14: respirationEnergyJoules = self.respirationRate * self.finalAmountMols
+inv expression15: self.energyJoules = processes.energyJoules->sum()
+inv expression16: self.respirationEnergyJoules + self.energyJoules = 0
+</class>
+</model>

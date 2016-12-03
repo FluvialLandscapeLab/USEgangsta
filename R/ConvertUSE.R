@@ -18,6 +18,10 @@ fileVector = sub("[[:space:]]+$", "", fileVector)
 fileVector = grep("^[-]+", fileVector, value = TRUE, invert =TRUE)
 # remove blank lines
 fileVector = fileVector[!(fileVector == "")]
+# remove symbols that violate xml
+fileVector = sub("&",";amp", fileVector)
+fileVector = sub("<", ";lt", fileVector)
+
 
 # create list of object tags
 objectTags = "^class\\>|^association\\>|^composition\\>"
@@ -58,8 +62,8 @@ openText =
       return(paste(x, collapse = " "))
     }
   )
-# insert <\\objectTag> to close out the corresponding<objectTag>
-closeText = paste0("<\\", closeText, ">")
+# insert <\objectTag> to close out the corresponding<objectTag>
+closeText = paste0("</", closeText, ">")
 fileVector[matchObjectVector] = openText
 fileVector[matchCloseVector] = closeText
 
@@ -87,7 +91,21 @@ modelText = gsub(modelText[modelTagVector], openModel, modelText)
 # apply to fileVector
 fileVector[matchModelVector] = modelText
 
-# group all modelText to the top of fileVector
-fileVector = c(fileVector[matchModelVector], fileVector[!matchModelVector])
+# surround model text in <modelcontraints> and </modelconstraints> to avoid xml error
+# replace <model> with <modelconstraints>
+modelText = sub("<model>", "<modelconstraints>", x= modelText)
+#insert <model> at the top of modelText
+openModelTag = "<model>"
+modelText = c(openModelTag, modelText)
 
+# insert </modelconstraints> at the end of modelText
+closeModelCTag = "</modelconstraints>"
+modelText = c(modelText, closeModelCTag)
+
+# group all modelText to the top of fileVector
+fileVector = c(modelText, fileVector[!matchModelVector])
+
+# add closing model tag <\model> to fileVector
+closeModelTag = "</model>"
+fileVector= c(fileVector, closeModelTag)
 

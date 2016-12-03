@@ -3,22 +3,6 @@
 # WHEN YOU INSTALL R TOOLS, be sure the check to box when is asks you if you
 # want to update the system path!!!
 
-
-# Choose the .use file to read
-useFile = file.choose()
-fileVector =
-  as.character(
-    read.table(useFile, header = F, sep= "~", blank.lines.skip = T)[[1]]
-  )
-### Clean fileVector ###
-# clip leading and trailing blank space
-fileVector = sub("^[[:space:]]+", "", fileVector)
-fileVector = sub("[[:space:]]+$", "", fileVector)
-# remove commented lines
-fileVector = grep("^[-]+", fileVector, value = TRUE, invert =TRUE)
-# remove blank lines
-fileVector = fileVector[!(fileVector == "")]
-
 ### Make XML tags ###
 makeTags = function(OCL) {
   # get the regular expressions that signify XML tags

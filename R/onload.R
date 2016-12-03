@@ -2,18 +2,9 @@
   op <- options()
   op.USEgangsta <- list(
     USEgangsta.OCLtags = list(
-      "^model\\>",
-      c("^class\\>",
-        "^composition\\>",
-        "^association\\>",
-        "^constraints\\>"
-      ),
       c("^attributes$",
-        "^operations$"
-      ),
-      c("^end$"
-      )
-     )
+        "^operations$")
+    )
 )
 
 
