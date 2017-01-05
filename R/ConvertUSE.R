@@ -1,8 +1,5 @@
 # replace end of a class with <\class> tag by finding every line that starts with class, associaiton, composition or begin and giving them a 1. Then every end gets a -1. When the line is equal to 0 then the propoer closing tag is assigned
 
-# Load packages
-library(xml2)
-
 # Choose the .use file to read
 useFile = file.choose()
 # convert the USE file to a vector
@@ -62,7 +59,7 @@ openText =
       return(paste(x, collapse = " "))
     }
   )
-# insert <\objectTag> to close out the corresponding<objectTag>
+# insert </objectTag> to close out the corresponding<objectTag>
 closeText = paste0("</", closeText, ">")
 fileVector[matchObjectVector] = openText
 fileVector[matchCloseVector] = closeText
