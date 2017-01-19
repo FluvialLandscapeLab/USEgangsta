@@ -7,10 +7,12 @@ post: totalBiomass = self.compounds->select( oclIsTypeOf( Organism ) ).finalAmou
 context SimulationModel::initGangstaInstance()
 pre:self.compounds->notEmpty()
 post:self.totalBiomass = 0
+</constraints>
 </modelconstraints>
 <class name = " SimulationModel">
 <attributes>
 totalBiomass : Real
+</attributes>
 <operations>
 simulation()
 initGangstaInstance()
@@ -21,36 +23,43 @@ i.finalAmountMols := 0;
 end;
 self.totalBiomass := 0;
 end
+</operations>
 </class>
 <class name = " Compound">
 <attributes>
 name : String
 initialAmountMols : Real
 finalAmountMols : Real
+</attributes>
 <operations>
 setInitialAmountMols(mols : Real)
 begin
 self.initialAmountMols := mols
 end
+</operations>
 </class>
 <class name = " InfiniteCompound ;lt Compound">
 <constraints>
 inv sourceSinkInitialAmtMols: initialAmountMols = 0
+</constraints>
 </class>
 <class name = " FiniteCompound ;lt Compound">
 <constraints>
 inv compoundInitialAmtMols: initialAmountMols >= 0
 inv compoundFinalAmtMols: finalAmountMols >= 0
+</constraints>
 </class>
 <class name = " Organism ;lt FiniteCompound">
 <attributes>
 respirationRate : Real
 respirationEnergyJoules : Real
 energyJoules : Real
+</attributes>
 <constraints>
 inv expression14: respirationEnergyJoules = self.respirationRate * self.finalAmountMols
 inv expression15: self.energyJoules = processes.energyJoules->sum()
 inv expression16: self.respirationEnergyJoules + self.energyJoules = 0
+</constraints>
 </class>
 <class name = " Pool">
 <attributes>
@@ -58,34 +67,41 @@ name :String
 initialAmountMols :Real
 finalAmountMols : Real
 stoichiometricRatio : Real
+</attributes>
 <operations>
 setStoichiometricRatio(ratio : Real)
 begin
 self.stoichiometricRatio := ratio
 end
+</operations>
 <constraints>
 inv expression9: self.initialAmountMols = self.stoichiometricRatio * compound.initialAmountMols
 inv expression10: self.finalAmountMols = self.stoichiometricRatio * compound.finalAmountMols
 inv expression12: self.finalAmountMols = self.initialAmountMols +  transfersIn.amountMolsTransfer->sum()- transfersOut.amountMolsTransfer->sum()
 inv expression13: self.initialAmountMols >= transfersOut.amountMolsTransfer->sum()
+</constraints>
 </class>
 <class name = " Transfer">
 <attributes>
 name : String
 amountMolsTransfer : Real
 jouleToMolRatio : Real
+</attributes>
 <operations>
 setJouleToMolRatio (ratio : Real)
 begin
 self.jouleToMolRatio := ratio
 end
+</operations>
 </class>
 <class name = " Process">
 <attributes>
 name : String
 energyJoules : Real
+</attributes>
 <constraints>
 inv expression11: transfers->forAll(t:Transfer | t.amountMolsTransfer * t.jouleToMolRatio= self.energyJoules)
+</constraints>
 </class>
 <composition name = " assoc0 between">
 SimulationModel [1] role simulationModel
