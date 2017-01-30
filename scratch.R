@@ -24,3 +24,24 @@ createElementTags2 = function(useXML) {
   }
 }
 
+#extracting info from useXML
+
+test = xml2::xml_child(useXML, search = 3)
+test2 = xml2::xml_children(test)
+test3 = xml2::xml_child(test, search = "attributes")
+test4 = xml2::xml_text(test3)
+test5 = unlist(strsplit(test4, split = "\n"))
+test5 = test5[!(test5 == "")]
+
+class(test5)<- "Compound"
+
+className = xml2::xml_attrs(xml2::xml_child(useXML, search = 3))
+test6 = xml2::xml_text(test2)
+test7 = unlist(strsplit(test6, split = "\n"))
+test7 = test7[!(test7 == "")]
+
+
+class(test7) <- className
+
+classChildren <- grepl("class", xml2::xml_children(useXML))
+

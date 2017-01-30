@@ -1,4 +1,4 @@
-# replace end of a class with <\class> tag by finding every line that starts with class, associaiton, composition or begin and giving them a 1. Then every end gets a -1. When the line is equal to 0 then the propoer closing tag is assigned
+# replace end of a class with </class> tag by finding every line that starts with class, associaiton, composition or begin and giving them a 1. Then every end gets a -1. When the line is equal to 0 then the propoer closing tag is assigned
 
 createParents = function(useFile = file.choose()) {
   # Choose the .use file to read
