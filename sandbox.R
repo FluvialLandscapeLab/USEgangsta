@@ -5,4 +5,10 @@ fileVector = createChildNames(fileVector)
 fileVector = createElementTags(fileVector)
 fileVector = addTagsToElement(fileVector)
 useXML = writeXML(fileVector)
-newClassList = useClass(useXML)
+
+xmlClasses = xml2:: xml_find_all(useXML, "//class")
+
+newXMLClasses = lapply(xmlClasses, useClass2)
+
+
+
